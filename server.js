@@ -11,13 +11,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//html routes
+//notes.html
 
 
+//index.html
+app.get("*", function(req, res) {
+    res.json(path.join(__dirname, "public/index.html"));
+  });
 
-console.log("hello world")
+//api/json route
+
+
 
 
 //initiate server
 app.listen(PORT, () => {
-    console.log("App listening on port " + PORT)
+    console.log("App listening on PORT: " + PORT)
 })
