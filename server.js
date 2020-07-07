@@ -14,38 +14,21 @@ app.use(express.static(path.join(__dirname, "public")));
 
 //notes.html
 app.get("/notes", (req, res) => {
-    res.sendFile(path.join(__dirname, "notes.html"))
-})
+    res.sendFile(path.join(__dirname, "public/notes.html"))
+});
 
-//read json/get api calls
+//api/json route
 app.get("/api/notes", (req, res) => {
-    fs.readFile(__dirname + "/db/db.json", "utf8", (err, data) => {
+    fs.readFile(__dirname, "public/db.json", "utf8", (err, data) => {
         if (err) throw err;
         return res.json(JSON.parse(data))
     })
 })
 
-//write new notes to json/api
-app.post("/api/notes", (req, res) => {
-    fs.readFile(__dirname + "/db/db.json", "utf8", (err, data) => {
-        if (err) throw err;
-
-        const jsonData = JSON.parse(data);
-
-    })
-})
-
-
-
 //index.html
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "/public/", "index.html"));
   });
-
-//api/json route
-
-
-
 
 //initiate server
 app.listen(PORT, () => {
