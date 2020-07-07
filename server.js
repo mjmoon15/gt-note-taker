@@ -1,8 +1,10 @@
-//dependencies
+
+
+  //dependencies
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-const { json } = require("body-parser");
+// const { json } = require("body-parser");
 
 //express and ports
 const app = express();
@@ -44,6 +46,23 @@ app.post("/api/notes", (req, res) => {
             if (err) throw err;
             res.json(jsonData);
 
+        })
+    })
+})
+//delete notes
+app.delete("/api/notes/:id", (req, res) => {
+    const noteId = req.params.id;
+
+    fs.readFile(__dirname + "/db.json", "utf8", (err, data) => {
+        if (err) throw err;
+
+        //variables for parse and filter
+        const jsonData = JSON.parse(data);
+        const results = jsonData.filter(note => note.id !== parseInt(noteId));
+
+        fs.writeFile(__dirname + "/db.json", JSON.stringify(jsonData), (err, data) => {
+            if (err) throw err;
+            res.json(results)
         })
     })
 })
