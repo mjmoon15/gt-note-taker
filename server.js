@@ -13,17 +13,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //html routes
 //notes.html
+app.get("/notes", (req, res) => {
+    res.sendFile(path.join(__dirname, "public/notes.html"))
+});
 
+//api/json route
+app.get("/api/notes", (req, res) => {
+    fs.readFile(__dirname, "public/db.json", "utf8", (err, data) => {
+        if (err) throw err;
+        return res.json(JSON.parse(data))
+    })
+})
 
 //index.html
 app.get("*", function(req, res) {
     res.sendFile(path.join(__dirname, "public/index.html"));
   });
-
-//api/json route
-
-
-
 
 //initiate server
 app.listen(PORT, () => {
