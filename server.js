@@ -20,7 +20,7 @@ app.get("/notes", (req, res) => {
 
 //api/json route
 app.get("/api/notes", (req, res) => {
-    fs.readFile(__dirname, "public/db.json", "utf8", (err, data) => {
+    fs.readFile(__dirname + "/db.json", "utf8", (err, data) => {
         if (err) throw err;
         return res.json(JSON.parse(data))
     })
@@ -28,7 +28,7 @@ app.get("/api/notes", (req, res) => {
 //add a new note
     //read notes
 app.post("/api/notes", (req, res) => {
-    fs.readFile(__dirname, "/public/db.json", "utf8", (err, data) => {
+    fs.readFile(__dirname + "/db.json", "utf8", (err, data) => {
         if (err) throw err;
 
         //parse new data from JSON and set ids for new notes
@@ -40,7 +40,7 @@ app.post("/api/notes", (req, res) => {
         jsonData.push(newNote)
 
         //write new
-        fs.writeFile(__dirname, "/public/db.json", JSON.stringify(jsonData), (err, data) => {
+        fs.writeFile(__dirname + "/db.json", JSON.stringify(jsonData), (err, data) => {
             if (err) throw err;
             res.json(jsonData);
 
