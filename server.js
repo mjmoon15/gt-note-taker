@@ -4,7 +4,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-// const { json } = require("body-parser");
+const { json } = require("body-parser");
 
 //express and ports
 const app = express();
@@ -34,10 +34,15 @@ app.post("/api/notes", (req, res) => {
         if (err) throw err;
 
         //parse new data from JSON and set ids for new notes
-        const jsonData = JSON.parse(data);
+        const jsonData = JSON.parse(data);     
         const idArray = jsonData.map(note => note.id);
-        const biggestId = Math.max(...idArray);
-        const newNote = req.body;
+            let biggestId; 
+            if (idArray.length == 0){
+                biggestId = 0    
+            } else {
+                biggestId = Math.max(...idArray)
+            }
+        const newNote = req.body;    
         newNote.id = biggestId + 1;
         jsonData.push(newNote)
 
@@ -52,15 +57,15 @@ app.post("/api/notes", (req, res) => {
 //delete notes
 app.delete("/api/notes/:id", (req, res) => {
     const noteId = req.params.id;
-
+    console.log("noteId ", noteId)
     fs.readFile(__dirname + "/db.json", "utf8", (err, data) => {
         if (err) throw err;
 
         //variables for parse and filter
         const jsonData = JSON.parse(data);
-        const results = jsonData.filter(note => note.id !== parseInt(noteId));
-
-        fs.writeFile(__dirname + "/db.json", JSON.stringify(jsonData), (err, data) => {
+        const results = jsonData.filter(note => note.id != noteId);
+        
+        fs.writeFile(__dirname + "/db.json", JSON.stringify(results), (err, data) => {
             if (err) throw err;
             res.json(results)
         })
